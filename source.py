@@ -22,23 +22,24 @@ for row in ws_L.iter_rows(min_row=3, max_col=3, max_row=max_row_L):
         summa_L += cell.value
 print(f"L_01_05.23 banka, EUR: {round(summa_L, 2)}")
 wb_L.close()
-        # 2.import pandas as pd	
+        
+# 2.
+import pandas as pd	
 from openpyxl import load_workbook	
 from tabulate import tabulate	
 	
 def replace_minus_with_none(value):	
       return None if pd.isna(value) else float(str(value).replace('-', ''))	
-	
+
 wb_S = load_workbook('S_TESTS.xlsx')	
 ws_S = wb_S.active	
 max_row_S = ws_S.max_row	
 saraksts_S_A = {}	
-	
+
 for row in range(2, max_row_S + 1):	
       A = replace_minus_with_none(ws_S['A' + str(row)].value)	
       saraksts_S_A[A] = replace_minus_with_none(ws_S['B' + str(row)].value)	
-	
-wb_L = load_workbook('L_TESTS.xlsx')	
+	wb_L = load_workbook('L_TESTS.xlsx')	
 ws_L = wb_L.active	
 max_row_L = ws_L.max_row	
 saraksts_L_A = {}	
