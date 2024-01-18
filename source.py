@@ -60,3 +60,47 @@ if result:
       print(tabulate(df, headers='keys', tablefmt='pretty', showindex=False))	
 else:	
       print("Nav atšķirību A un B kolonnās.")	
+# 3.posms - Visu datu analīze
+import pandas as pd	
+from openpyxl import load_workbook	
+from tabulate import tabulate	
+
+def replace_minus_with_none(value):
+  if pd.isna(value) or not (isinstance(value, (int, float)) or (isinstance(value, str) and value.replace('-', '').replace('.', '').isdigit())):
+      return None
+  try:
+      return float(str(value).replace('-', ''))
+  except ValueError:
+      return None
+
+wb_S = load_workbook('S_010123_310523.xlsx')	
+ws_S = wb_S['Sheet7']	
+max_row_S = ws_S.max_row	
+saraksts_S_A = {}	
+
+for row in range(3, max_row_S-1):	
+      A = replace_minus_with_none(ws_S['A' + str(row)].value)	
+      saraksts_S_A[A] = replace_minus_with_none(ws_S['B' + str(row)].value)	
+
+wb_L = load_workbook('L_01_05.23.xlsx')	
+ws_L = wb_L['Sheet2']		
+max_row_L = ws_L.max_row	
+saraksts_L_A = {}	
+
+for row in range(1, max_row_L ):	
+      A = replace_minus_with_none(ws_L['A' + str(row)].value)	
+      saraksts_L_A[A] = replace_minus_with_none(ws_L['B' + str(row)].value)	
+
+result = []	
+
+for key, val_S in saraksts_S_A.items():	
+      val_L = saraksts_L_A.get(key)	
+      if val_L is not None and val_S != val_L:	
+          result.append((key, round(val_S, 2), round(val_L, 2), round(val_S - val_L, 2)))	
+
+if result:	
+      df = pd.DataFrame(result, columns=['A', 'S_010123_310523 B', 'L_01_05.23 B', 'Starpība'])	
+      print(tabulate(df, headers='keys', tablefmt='pretty', showindex=False))	
+else:	
+      print("Nav atšķirību A un B kolonnās.")	
+
