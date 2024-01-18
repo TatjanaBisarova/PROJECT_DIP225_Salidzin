@@ -23,7 +23,7 @@ for row in ws_L.iter_rows(min_row=3, max_col=3, max_row=max_row_L):
 print(f"L_01_05.23 banka, EUR: {round(summa_L, 2)}")
 wb_L.close()
         
-# 2.
+# 2.Programmas testēšana uz nelieliem testa failiem
 import pandas as pd	
 from openpyxl import load_workbook	
 from tabulate import tabulate	
